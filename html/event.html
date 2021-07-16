@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+
+    <link rel="shortcut icon" type="image/png" href="/static/image/favicon-16x16.png"/>
+    <link rel="stylesheet" type="text/css" href="/static/mycss.css">
+
+    <title>EVENT</title>
+    <style>
+      body {  
+        background-image: url("./static/image/gambar 2.jpg"); 
+        background-repeat: no-repeat ; 
+        background-size: cover;
+	    }
+      .btn{
+        float: right;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      
+      <a class="navbar-brand navbar-light" href="#"><b>&nbsp; VOTING &nbsp;</b></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <a class="nav-item nav-link " href=""></a>
+            <a class="nav-item nav-link " href="/berandapage"><i class="fa fa-home"></i> Beranda &nbsp;</a>
+            <a class="nav-item nav-link" href="/eventpage"><i class="fa fa-calendar"></i> Events &nbsp;</a>
+            <a class="nav-item nav-link" href="/calonpage"><i class="fa fa-users"></i> Calon &nbsp;</a>
+            <!-- <a class="nav-item nav-link " href="#" tabindex="-1" aria-disabled="true">Disabled</a> -->
+          </div>
+        </div>
+    </nav><br><br>
+    {{range $index, $elem := .Data_event}}
+      <div class="card">
+        <div class="card-body">
+          <h4>{{$elem.Namaevent}}</h4>
+          <p>{{$elem.Tujuan}}</p>
+            <div>
+              <div class="btn">
+                <form action="/delete" method="POST">
+                  <input type="text" name="id_event" value="{{$elem.Idevent}}" hidden >
+                  <button type="submit" class="btn btn-danger">Hapus</button>
+                </form>
+              </div>
+              <div class="btn">
+                <form action="/livesuarapage" method="POST">
+                  <input type="text" name="id_event" value="{{$elem.Idevent}}" hidden>
+                  <button type="submit" class="btn btn-secondary">Live Suara</button>
+                </form>
+              </div>
+              <div class="btn">
+                <form action="/editeventpage" method="POST">
+                  <input type="text" name="nama_event" value="{{$elem.Namaevent}}" hidden>
+                  <button type="submit" class="btn btn-info">Edit</button>
+                </form>
+              </div>
+              <div class="btn">
+                <!-- if({{$elem.Status}} == "buka"){
+                  <form action="/votepage" method="POST" name="frm">
+                    <input type="text" name="id_event" value="{{$elem.Idevent}}" hidden>
+                    <button type="submit" class="btn btn-primary" name="vote">Vote</button>
+                  </form>
+                } else {
+                  <button type="submit" class="btn btn-primary" name="vote" disabled>Vote</button>
+                } -->
+                {{if eq $elem.Status "buka"}}
+                  <form action="/votepage" method="POST" name="frm">
+                    <input type="text" name="id_event" value="{{$elem.Idevent}}" hidden >
+                    <button type="submit" class="btn btn-primary" name="vote">Vote</button>
+                  </form>
+                {{else}}
+                  <button type="submit" class="btn btn-primary" name="vote" disabled>Vote</button>
+                {{end}}
+              </div>
+            </div>
+           
+       </div>
+        
+      </div>
+    {{end}}
+    <br>
+    <nav aria-label="..." >
+      <ul class="pagination pagination-lg">
+        <!-- <li class="page-item active" aria-current="page">
+          <span class="page-link">
+            1
+            <span class="sr-only">(current)</span>
+          </span>
+        </li> -->
+        {{range $index, $elem := .Page}}
+          <li class="page-item" align="center">
+          
+            <a class="page-link" href="/eventpage?page={{ $elem }}">{{$elem}}</a>
+          
+          </li>
+        {{end}}
+        <!-- <li class="page-item"><a class="page-link" href="#">3</a></li> -->
+      </ul>
+    </nav>
+    <div class="tengah">
+      <form action="/tambaheventpage">
+        <input type="text" name="tambaheventpage" hidden>
+        <button type="submit" class="btn btn-success" >Tambah Event</button>
+      </form>
+    </div>
+    <form action="/kodeeventpage" method="POST">
+      <input type="text" name="id_event" value="Kode" hidden>
+      <button type="submit" class="btn btn-light">Kode Event</button>
+    </form><br><br><br><br><br>
+    <footer>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-bottom">
+        <!-- <marquee behavior="" direction=""></marquee> -->
+        <marquee class="navbar-brand navbar-light" href="#"><b> &copy; VOTING by RIFQI & KUKUH</b></marquee>
+      </nav>
+    </footer>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  </body>
+</html>

@@ -1,0 +1,16 @@
+{
+	"server":{
+		"address"	: "localhost",
+		"port"		: "7008"
+	},
+
+	"db":{
+		"driver"	: "mysql",
+		"address"	: "localhost",
+		"port"		: "3306",
+		"name"		: "voting",
+		"username"	: "root",
+		"password"	: "",
+		"prefix"	: "tb_"
+	}
+}
